@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Animated, TouchableOpacity, Linking, AsyncStorage } from 'react-native';
+import { View, Animated, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -36,17 +36,15 @@ class AccountScreen extends Component {
         };
     }
     componentDidMount() {
-        // Add event listener to handle OAuthLogin:// URLs
+        // Add event listener to handle OAuthLogin:// URLs for OAuth
         Linking.addEventListener('url', this.handleOpenURL.bind(this));
     }
     componentWillUnmount() {
         Linking.removeEventListener('url', this.handleOpenURL);
     }
     async handleOpenURL({ url }) {
-        // Extract stringified user string out of the URL
-        const pushToken = await AsyncStorage.getItem(keys.pushNotificationKey);
         const [, userString] = url.match(/user=([^#]+)/);
-        this.props.appActions.userLoggedInViaOAuth(JSON.parse(decodeURI(userString)), pushToken);
+        console.log(userString);
     }
     componentDidUpdate() {
         if (this.state.isCallThroughButton) {

@@ -1,8 +1,3 @@
-// App Info Screen 
-export const APP_INFO_SCREEN_SEEN = 'APP_INFO_SCREEN_SEEN';
-
-// After app info screen
-export const AFTER_APP_INFO_SCREEN_SEEN = 'AFTER_APP_INFO_SCREEN_SEEN';
 
 // login
 export const LOGIN_LOADING = 'LOGIN_LOADING';

@@ -34,9 +34,13 @@ const loginLoading = (dispatch) => {
 };
 
 export const doLogin = (id, pass, pushToken) => {
+    const axiosInstance = axios.create({
+        baseURL: keys.baseURL,
+        timeout: 5 * 1000
+    });
     return (dispatch) => {
         loginLoading(dispatch);
-        axios.post(keys.baseURL + '/auth/login/email', {
+        axiosInstance.post('/auth/login/email', {
             password: pass,
             email: id,
             pushToken: pushToken

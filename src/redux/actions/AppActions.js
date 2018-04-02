@@ -1,6 +1,6 @@
 import axios from 'axios';
 import keys from '../../config/keys';
-import { USER_LOGGED_IN, USER_LOGOUT, SET_CURRENT_COORDINATED, CHANGE_LOCATION_SHARING_SETTING } from '../types';
+import { USER_LOGGED_IN, USER_LOGOUT } from '../types';
 
 export const userLoggedIn = (user) => {
     return {
@@ -13,20 +13,10 @@ export const userLogout = () => {
         type: USER_LOGOUT
     };
 };
-export const setCurrentCoordinates = () => {
-    return {
-        type: SET_CURRENT_COORDINATED
-    };
-};
-export const setLocationSharingSetting = () => {
-    return {
-        type: CHANGE_LOCATION_SHARING_SETTING,
-    };
-};
 export const logout = (token) => {
     const axiosInstance = axios.create({
         baseURL: keys.baseURL,
-        timeout: 20 * 1000,
+        timeout: 5 * 1000,
         headers: { Authorization: token }
     });
     return (dispatch) => {
@@ -41,27 +31,5 @@ export const logout = (token) => {
             }).catch((error) => {
                 console.log('failed' + error);
             });
-    };
-};
-export const userLoggedInViaOAuth = (user, pushToken) => {
-    const axiosInstance = axios.create({
-        baseURL: keys.baseURL,
-        timeout: 20 * 1000,
-        headers: { Authorization: user.jwtToken }
-    });
-    axiosInstance.put('/account/pushToken', {
-        pushToken: pushToken
-    }).then(response => {
-        if (response.status >= 200 && response.status < 400) {
-            console.log('Token Updated');
-        } else {
-            console.log('server error');
-        }
-    }).catch((error) => {
-        console.log('failed' + error);
-    });
-    return {
-        type: USER_LOGGED_IN,
-        payload: user
     };
 };
