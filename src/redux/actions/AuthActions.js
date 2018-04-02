@@ -33,17 +33,16 @@ const loginLoading = (dispatch) => {
     });
 };
 
-export const doLogin = (id, pass, pushToken) => {
+export const doLogin = (id, pass) => {
     const axiosInstance = axios.create({
         baseURL: keys.baseURL,
         timeout: 5 * 1000
     });
     return (dispatch) => {
         loginLoading(dispatch);
-        axiosInstance.post('/auth/login/email', {
+        axiosInstance.post('/auth/login', {
             password: pass,
             email: id,
-            pushToken: pushToken
         }).then(response => {
             if (response.status >= 200 && response.status < 400) {
                 loginUserSuccess(dispatch, response.data);

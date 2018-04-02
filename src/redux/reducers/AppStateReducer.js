@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, USER_LOGOUT } from '../types';
+import { USER_LOGGED_IN, USER_LOGOUT, USER_UPDATED } from '../types';
 import { REHYDRATE } from 'redux-persist/es/constants';
 
 const INITIAL_STATE = {
@@ -19,7 +19,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...INITIAL_STATE };
         }
         case USER_LOGGED_IN: {
-            return { ...state, user: action.payload, token: action.payload.jwtToken };
+            return { ...state, user: action.payload };
+        }
+        case USER_UPDATED: {
+            return { ...state, user: action.payload };
         }
         case USER_LOGOUT: {
             return { ...state, user: '', token: '' };

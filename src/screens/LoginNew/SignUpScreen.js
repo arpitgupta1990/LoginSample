@@ -64,7 +64,6 @@ class SignUpScreen extends Component {
                 this.props.register.R_name,
                 this.props.register.R_loginId,
                 this.props.register.R_password,
-                this.props.appState.pushToken
             );
         } else {
             Alert.alert(

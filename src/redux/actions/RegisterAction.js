@@ -72,29 +72,28 @@ const registerLoading = (dispatch) => {
         type: REGISTER_LOADING
     });
 };
-export const doRegister = (name, id, pass, pushToken) => {
+export const doRegister = (name, id, pass) => {
     const axiosInstance = axios.create({
         baseURL: keys.baseURL,
         timeout: 5 * 1000
     });
     return (dispatch) => {
         registerLoading(dispatch);
-        axiosInstance.post(`/auth/register/email`, {
+        axiosInstance.post(`/auth/register`, {
             name: name,
             email: id,
-            password: pass,
-            pushToken: pushToken
+            password: pass
         }).then(response => {
             if (response.status >= 200 && response.status < 400) {
-                // registerUserSuccess(dispatch, response.data);
-                registerUserSuccess(dispatch, { name: name, email: id });
+                registerUserSuccess(dispatch, response.data);
+                // registerUserSuccess(dispatch, { name: name, email: id });      // for demo testing
             } else {
-                // registerUserFail(dispatch, response.error);
-                registerUserSuccess(dispatch, { name: name, email: id });
+                registerUserFail(dispatch, response.error);
+                // registerUserSuccess(dispatch, { name: name, email: id });      // for demo testing
             }
         }).catch((error) => {
-            // registerUserFail(dispatch, error);
-            registerUserSuccess(dispatch, { name: name, email: id });
+            registerUserFail(dispatch, error);
+            // registerUserSuccess(dispatch, { name: name, email: id });       // for demo testing
         });
     };
 };
