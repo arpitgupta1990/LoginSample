@@ -34,6 +34,8 @@ const loginLoading = (dispatch) => {
 };
 
 export const doLogin = (id, pass) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const axiosInstance = axios.create({
         baseURL: keys.baseURL,
         timeout: 5 * 1000
@@ -43,6 +45,8 @@ export const doLogin = (id, pass) => {
         axiosInstance.post('/auth/login', {
             password: pass,
             email: id,
+        }, {
+            cancelToken: source.token
         }).then(response => {
             if (response.status >= 200 && response.status < 400) {
                 loginUserSuccess(dispatch, response.data);
@@ -54,5 +58,6 @@ export const doLogin = (id, pass) => {
                 loginUserFail(dispatch, error.message);
             }
         });
+        return source;
     };
 };

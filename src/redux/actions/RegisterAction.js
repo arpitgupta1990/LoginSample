@@ -73,6 +73,8 @@ const registerLoading = (dispatch) => {
     });
 };
 export const doRegister = (name, id, pass) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const axiosInstance = axios.create({
         baseURL: keys.baseURL,
         timeout: 5 * 1000
@@ -83,6 +85,8 @@ export const doRegister = (name, id, pass) => {
             name: name,
             email: id,
             password: pass
+        }, {
+            cancelToken: source.token
         }).then(response => {
             if (response.status >= 200 && response.status < 400) {
                 registerUserSuccess(dispatch, response.data);
@@ -95,6 +99,7 @@ export const doRegister = (name, id, pass) => {
             registerUserFail(dispatch, error);
             // registerUserSuccess(dispatch, { name: name, email: id });       // for demo testing
         });
+        return source;
     };
 };
 

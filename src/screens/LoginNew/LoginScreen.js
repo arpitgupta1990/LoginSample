@@ -31,6 +31,9 @@ class LoginScreen extends Component {
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        if (this.loginRequest) {
+            this.loginRequest.cancel();
+        }
     }
     componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
@@ -49,7 +52,7 @@ class LoginScreen extends Component {
         this.props.authActions.passwordChanged(text);
     }
     doLogin() {
-        this.props.authActions.doLogin(this.props.auth.loginId, this.props.auth.password, this.props.appState.pushToken);
+        this.loginRequest = this.props.authActions.doLogin(this.props.auth.loginId, this.props.auth.password, this.props.appState.pushToken);
     }
     loginDone() {
         this.props.appActions.userLoggedIn(this.props.auth.user);

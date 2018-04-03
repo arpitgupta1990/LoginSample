@@ -34,6 +34,9 @@ class SignUpScreen extends Component {
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        if (this.signUpRequest) {
+            this.signUpRequest.cancel();
+        }
     }
     componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
@@ -60,7 +63,7 @@ class SignUpScreen extends Component {
     doSignUp() {
         if (this.props.register.isConformPasswordValid && this.props.register.isNameValid
             && this.props.register.isLoginIdValid && this.props.register.isPasswordValid) {
-            this.props.registerActions.doRegister(
+                this.signUpRequest = this.props.registerActions.doRegister(
                 this.props.register.R_name,
                 this.props.register.R_loginId,
                 this.props.register.R_password,
